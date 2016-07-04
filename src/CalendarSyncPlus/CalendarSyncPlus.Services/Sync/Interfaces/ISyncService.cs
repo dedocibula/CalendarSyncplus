@@ -25,8 +25,7 @@ namespace CalendarSyncPlus.Services.Sync.Interfaces
         /// <summary>
         /// </summary>
         /// <param name="timerCallback"></param>
-        /// <returns></returns>
-        Task<bool> Start(ElapsedEventHandler timerCallback);
+        void Start(ElapsedEventHandler timerCallback);
 
         /// <summary>
         /// </summary>

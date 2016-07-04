@@ -34,7 +34,7 @@ namespace CalendarSyncPlus.Common
             {
                 return (EnumType) Enum.Parse(typeof(EnumType), enumValue);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 return new EnumType();
             }

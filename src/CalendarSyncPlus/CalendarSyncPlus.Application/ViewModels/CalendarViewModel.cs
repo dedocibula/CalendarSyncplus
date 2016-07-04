@@ -324,7 +324,7 @@ namespace CalendarSyncPlus.Application.ViewModels
                                                        string.Empty);
         }
 
-        private async void AutoDetectEWSSettings()
+        private void AutoDetectEWSSettings()
         {
             IsLoading = true;
             var calendarSpecificData = new Dictionary<string, object>

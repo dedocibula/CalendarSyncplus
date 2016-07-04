@@ -96,7 +96,7 @@ namespace CalendarSyncPlus.Domain.Models.Preferences
                 }
                 return dateTime;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
             return DateTime.Now;

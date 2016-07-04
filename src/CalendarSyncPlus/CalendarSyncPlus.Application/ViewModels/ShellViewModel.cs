@@ -390,7 +390,7 @@ namespace CalendarSyncPlus.Application.ViewModels
             }
         }
 
-        private async void PeriodicSyncCommandHandler()
+        private void PeriodicSyncCommandHandler()
         {
             if (IsSettingsLoading)
             {
@@ -403,7 +403,7 @@ namespace CalendarSyncPlus.Application.ViewModels
                 MessageService.ShowMessageAsync("Unable to do the operation as sync is in progress.");
                 return;
             }
-            await StartPeriodicSync();
+            StartPeriodicSync();
             Settings.AppSettings.PeriodicSyncOn = IsPeriodicSyncStarted;
             if (IsPeriodicSyncStarted)
             {
@@ -411,7 +411,7 @@ namespace CalendarSyncPlus.Application.ViewModels
             }
         }
 
-        private async Task StartPeriodicSync()
+        private void StartPeriodicSync()
         {
             if (IsPeriodicSyncStarted)
             {
@@ -423,21 +423,18 @@ namespace CalendarSyncPlus.Application.ViewModels
             }
             else
             {
-                var result = await SyncStartService.Start(OnTimerElapsed);
-                if (result)
+                SyncStartService.Start(OnTimerElapsed);
+                foreach (var syncProfile in ScheduledSyncProfiles)
                 {
-                    foreach (var syncProfile in ScheduledSyncProfiles)
+                    if (syncProfile.IsSyncEnabled && syncProfile.SyncFrequency != null)
                     {
-                        if (syncProfile.IsSyncEnabled && syncProfile.SyncFrequency != null)
-                        {
-                            syncProfile.NextSync = syncProfile.SyncFrequency.GetNextSyncTime(DateTime.Now);
-                        }
+                        syncProfile.NextSync = syncProfile.SyncFrequency.GetNextSyncTime(DateTime.Now);
                     }
-
-                    IsPeriodicSyncStarted = true;
-                    UpdateStatus($"Periodic Sync Started : {DateTime.Now}");
-                    UpdateStatus(StatusHelper.GetMessage(SyncStateEnum.LogSeparator));
                 }
+
+                IsPeriodicSyncStarted = true;
+                UpdateStatus($"Periodic Sync Started : {DateTime.Now}");
+                UpdateStatus(StatusHelper.GetMessage(SyncStateEnum.LogSeparator));
             }
         }
 
@@ -720,7 +717,7 @@ namespace CalendarSyncPlus.Application.ViewModels
             {
                 UpdateStatus(StatusHelper.GetMessage(SyncStateEnum.SyncFailed, result));
             }
-            var totalSeconds = (int) DateTime.Now.Subtract(syncProfile.LastSync.GetValueOrDefault()).TotalSeconds;
+            var totalSeconds = (int)DateTime.Now.Subtract(syncProfile.LastSync.GetValueOrDefault()).TotalSeconds;
             UpdateStatus(StatusHelper.GetMessage(SyncStateEnum.Line));
             UpdateStatus($"Time Elapsed : {totalSeconds} s");
             UpdateStatus(StatusHelper.GetMessage(SyncStateEnum.LogSeparator));
@@ -765,7 +762,7 @@ namespace CalendarSyncPlus.Application.ViewModels
             {
                 if (key != null)
                 {
-                    var value = (int) key.GetValue("FirstLaunch", 0);
+                    var value = (int)key.GetValue("FirstLaunch", 0);
                     if (value == 1)
                     {
                         ShowWhatsNew();

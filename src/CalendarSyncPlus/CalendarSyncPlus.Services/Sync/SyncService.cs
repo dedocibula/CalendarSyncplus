@@ -74,7 +74,7 @@ namespace CalendarSyncPlus.Services.Sync
             set { SetProperty(ref _syncStatus, value); }
         }
 
-        public async Task<bool> Start(ElapsedEventHandler timerCallback)
+        public void Start(ElapsedEventHandler timerCallback)
         {
             if (_syncTimer == null)
             {
@@ -82,8 +82,6 @@ namespace CalendarSyncPlus.Services.Sync
                 _syncTimer.Elapsed += timerCallback;
             }
             _syncTimer.Start();
-
-            return true;
         }
 
         public void Stop(ElapsedEventHandler elapsedEventHandler)

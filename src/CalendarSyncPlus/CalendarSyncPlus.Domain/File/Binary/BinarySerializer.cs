@@ -53,10 +53,6 @@ namespace CalendarSyncPlus.Domain.File.Binary
                 // assign the reference to the local variable.
                 obj = (T) formatter.Deserialize(fs);
             }
-            catch (SerializationException e)
-            {
-                throw;
-            }
             finally
             {
                 fs.Close();
@@ -82,11 +78,6 @@ namespace CalendarSyncPlus.Domain.File.Binary
             {
                 formatter.Serialize(fs, source);
             }
-            catch (SerializationException e)
-            {
-                throw;
-            }
-
             finally
             {
                 fs.Close();

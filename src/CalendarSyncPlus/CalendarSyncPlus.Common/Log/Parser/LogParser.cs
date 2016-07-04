@@ -146,7 +146,7 @@ namespace CalendarSyncPlus.Common.Log.Parser
                             lastIndexCount++;
                         }
                     }
-                    catch (XmlException xmlException)
+                    catch (XmlException)
                     {
                     }
                 }
@@ -220,19 +220,19 @@ namespace CalendarSyncPlus.Common.Log.Parser
                     stream.Close();
                 }
             }
-            catch (DirectoryNotFoundException directoryNotFoundException)
+            catch (DirectoryNotFoundException)
             {
             }
-            catch (FileNotFoundException fileNotFoundException)
+            catch (FileNotFoundException)
             {
             }
-            catch (SecurityException securityException)
+            catch (SecurityException)
             {
             }
-            catch (IOException ioException)
+            catch (IOException)
             {
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 // ignored
             }

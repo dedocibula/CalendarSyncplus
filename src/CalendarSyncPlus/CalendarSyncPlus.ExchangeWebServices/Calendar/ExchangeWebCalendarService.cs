@@ -23,7 +23,7 @@ namespace CalendarSyncPlus.ExchangeWebServices.Calendar
     {
         private const string EWSCALENDAR = "EWSCalendar";
         private const string EXCHANGE_SERVER_SETTINGS = "ExchangeServerSettings";
-        private bool _addAsAppointments;
+//        private bool _addAsAppointments;
         private Category _eventCategory;
         private EWSCalendar _ewsCalendar;
 
@@ -147,9 +147,9 @@ namespace CalendarSyncPlus.ExchangeWebServices.Calendar
                 calendarview);
 
 
-            service.LoadPropertiesForItems(
+            await System.Threading.Tasks.Task.Run(() => service.LoadPropertiesForItems(
                 from Item item in exchangeAppointments select item,
-                new PropertySet(BasePropertySet.FirstClassProperties) {RequestedBodyType = BodyType.Text});
+                new PropertySet(BasePropertySet.FirstClassProperties) {RequestedBodyType = BodyType.Text}));
 
             if (exchangeAppointments != null)
             {
@@ -194,9 +194,9 @@ namespace CalendarSyncPlus.ExchangeWebServices.Calendar
 
             object ewsCalendar;
             object serverSettings;
-            object addAsAppointments;
-            if (! //(calendarSpecificData.TryGetValue(EWSCALENDAR, out ewsCalendar) &&
-                calendarSpecificData.TryGetValue(EXCHANGE_SERVER_SETTINGS, out serverSettings)) // &&
+//            object addAsAppointments;
+            if (! (calendarSpecificData.TryGetValue(EWSCALENDAR, out ewsCalendar) &&
+                calendarSpecificData.TryGetValue(EXCHANGE_SERVER_SETTINGS, out serverSettings))) // &&
                 //calendarSpecificData.TryGetValue("AddAsAppointments", out addAsAppointments)))
             {
                 throw new InvalidOperationException(
@@ -204,7 +204,7 @@ namespace CalendarSyncPlus.ExchangeWebServices.Calendar
                         "{0} {1} and {2}  keys should be present, both of them can be null in case Default Profile and Default Calendar will be used. {0} is of 'string' type, {1} is of 'OutlookCalendar' type and {2} is of bool type.",
                         EWSCALENDAR, EXCHANGE_SERVER_SETTINGS, "AddAsAppointments"));
             }
-            //_ewsCalendar = ewsCalendar as EWSCalendar;
+            _ewsCalendar = ewsCalendar as EWSCalendar;
             ExchangeServerSettings = serverSettings as ExchangeServerSettings;
             //_addAsAppointments = (bool) addAsAppointments;
             object eventCategory;
